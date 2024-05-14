@@ -1,0 +1,68 @@
+* {
+    margin: 5px 6px;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.header {
+    border-left: 5px solid rgb(131, 71, 19);
+}
+
+.header h2 {
+    padding-left: 5px;
+    color: rgb(131, 71, 19);
+}
+
+i {
+    font-size: 15px;
+    color: rgb(135, 41, 41);
+}
+
+.body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.content img {
+    margin-top: 20px;
+    width: 400px;
+    height: 150px;
+}
+
+.content ul {
+    list-style-type: none;
+    /* Loại bỏ chấm tròn của danh sách */
+    margin: 0;
+}
+
+li {
+    margin-left: -1px;
+}
+
+.content {
+    width: 400px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.content:hover {
+    transform: scale(1.1);
+    /* Phóng to 110% kích thước ban đầu */
+}
+
+.content h3 {
+    margin: 6px;
+}
+
+.content p {
+    margin-bottom: 15px;
+}
