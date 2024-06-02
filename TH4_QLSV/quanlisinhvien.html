@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial
+scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ứng dụng quản lý sinh viên</title>
+    <style>
+        /* CSS cơ bản cho giao diện */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        input[type=text],
+        input[type=date] {
+            width: 100%;
+            padding: 8px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color:
+                white;
+            border: none;
+        }
+
+        .error-name,
+        .error-code,
+        .error-class,
+        .error-date {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Thêm sinh viên</h2>
+    <form id="formSinhVien">
+        Họ tên: <input type="text" id="hoTen">
+        <div class="error-name"></div>
+        Mã SV: <input type="text" id="maSV">
+        <div class="error-code"></div>
+        Ngày sinh: <input type="date" id="ngaySinh">
+        <div class="error-date"></div>
+        Lớp: <input type="text" id="lop">
+        <div class="error-class"></div>
+        <button type="submit">Thêm</button>
+    </form>
+
+    <h2>Danh sách sinh viên</h2>
+    <table id="bangSinhVien">
+    </table>
+    <script>
+        // JavaScript (bạn sẽ viết các hàm xử lý sự kiện tại đây) 
+        document.getElementById("formSinhVien").addEventListener("submit",
+            function (event) {
+                event.preventDefault(); // Ngăn chặn form submit mặc định 
+
+                // Lấy dữ liệu từ form 
+                let hoTen = document.getElementById('hoTen').value;
+                let maSV = document.getElementById('maSV').value;
+                let ngaySinh = document.getElementById('ngaySinh').value;
+                let lop = document.getElementById('lop').value;
+                let sinhVien = { hoTen: hoTen, maSV: maSV, ngaySinh: ngaySinh, lop: lop };
+                document.querySelector('.error-name').innerText = '';
+                document.querySelector('.error-code').innerText = '';
+                document.querySelector('.error-date').innerText = '';
+                document.querySelector('.error-class').innerText = '';
+
+                // Validate dữ liệu 
+                if (!hoTen) {
+                    console.log('error1')
+                    document.querySelector('.error-name').innerText = 'Họ tên không được để trống';
+                }
+                if (!maSV) {
+                    console.log('error2')
+                    document.querySelector('.error-code').innerText = "Bạn phải nhập mã sinh viên";
+                }
+                if (!ngaySinh) {
+                    document.querySelector('.error-date').innerText = "Bạn phải nhập ngày sinh";
+                }
+                if (!lop) {
+                    document.querySelector('.error-class').innerText = 'Bạn phải nhập lớp';
+                }
+                else {
+                    let sinhVienList = JSON.parse(localStorage.getItem('sinhVienList')) || [];
+                    sinhVienList.push(sinhVien);
+                    localStorage.setItem('sinhVienList', JSON.stringify(sinhVienList));
+                    document.getElementById('formSinhVien').reset();
+
+                }
+                hienThiDanhSachSinhVien();
+
+                // Thêm sinh viên vào bảng và localStorage 
+                // ... 
+            });
+
+        // Hàm hiển thị danh sách sinh viên từ localStorage khi trang tải 
+        function hienThiDanhSachSinhVien() {
+            const localStorageData = document.getElementById('bangSinhVien');
+            localStorageData.innerHTML = `
+    <tr>
+        <th>Họ tên</th>
+        <th>Mã SV</th>
+        <th>Ngày sinh</th>
+        <th>Lớp</th>
+        <th>Hành động</th>
+    </tr> `; // Xóa nội dung cũ
+
+            // Lấy danh sách sinh viên từ localStorage
+            let sinhVienList = JSON.parse(localStorage.getItem('sinhVienList')) || [];
+
+            // Duyệt qua tất cả các mục trong danh sách bằng vòng lặp for
+            for (let i = 0; i < sinhVienList.length; i++) {
+                const sinhVien = sinhVienList[i];
+                const tr = document.createElement('tr');
+
+                // Tạo ô cho họ tên
+                const tdHoTen = document.createElement('td');
+                tdHoTen.textContent = sinhVien.hoTen;
+                tr.appendChild(tdHoTen);
+
+                // Tạo ô cho mã SV
+                const tdMaSV = document.createElement('td');
+                tdMaSV.textContent = sinhVien.maSV;
+                tr.appendChild(tdMaSV);
+
+                // Tạo ô cho ngày sinh
+                const tdNgaySinh = document.createElement('td');
+                tdNgaySinh.textContent = sinhVien.ngaySinh;
+                tr.appendChild(tdNgaySinh);
+
+                // Tạo ô cho lớp
+                const tdLop = document.createElement('td');
+                tdLop.textContent = sinhVien.lop;
+                tr.appendChild(tdLop);
+
+                // Thêm hàng vào bảng
+                localStorageData.appendChild(tr);
+            }
+        }
+
+        // Gọi hàm hiển thị danh sách khi trang tải 
+        hienThiDanhSachSinhVien(); 
+    </script>
+
+</body>
+
+</html>
